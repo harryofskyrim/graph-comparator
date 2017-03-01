@@ -5,3 +5,4 @@ C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.Prope
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
