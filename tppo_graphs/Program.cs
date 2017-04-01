@@ -10,21 +10,24 @@ namespace tppo_graphs
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
+        /// 
 
-        static void isomorph(Graph grph) {}
-        static void metrics(Graph grph) {}
-        static void distance(Graph grph) {}
+        static Graph[] gr = new Graph[2];
+
+        public static void isomorph() {}
+        public static void metrics() { }
+        public static void distance() { }
 
         static bool isTree(Graph grph) { return true; }
 
-        static bool isAllowedChar(char c, Form1 myform)
+        static bool isAllowedChar(char c)
         {
             if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || (c >= '0' && c <= '9'))
                 return true;
             return false;
         }
 
-        public static int isCorrect(string matrix, string vertices, string edges, int method, Form1 myform)
+        public static int isCorrect(string matrix, string vertices, string edges, int method, int number)
         {
             if (method < 0)
                 return 7; //не выбран метод ввода
@@ -48,7 +51,7 @@ namespace tppo_graphs
             int n = -1;
             for (int pos = 0; pos < m.Length; pos++)
             {
-                if (!isAllowedChar(m[pos], myform))
+                if (!isAllowedChar(m[pos]))
                 {
                     return 1; //лишние символы во вводе
                 }
@@ -85,10 +88,7 @@ namespace tppo_graphs
                 return 2; //ввод не является правильной матрицей
 
             Graph a = new Graph(g, v);
-
-            isomorph(a);
-            metrics(a);
-            distance(a);
+            gr[number - 1] = a;
             return 0;
         }
 

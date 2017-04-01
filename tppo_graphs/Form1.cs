@@ -56,12 +56,15 @@ namespace tppo_graphs
 
         private void analyze_button_Click(object sender, EventArgs e)
         {
+            bool check1 = false, check2 = false;
+
             // checking whether the first graph input is correct
-            switch (Program.isCorrect(textBox_matrix1.Text, textBox_vertices1.Text, textBox_edges1.Text, comboBox1.SelectedIndex, this))
+            switch (Program.isCorrect(textBox_matrix1.Text, textBox_vertices1.Text, textBox_edges1.Text, comboBox1.SelectedIndex, 1))
             {
                 case 0:
                     {
                         //do further analysis
+                        check1 = true;
                         break;
                     }
                 case 1:
@@ -109,11 +112,12 @@ namespace tppo_graphs
             }
 
             // checking whether the second graph input is correct
-            switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, this))
+            switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, 2))
             {
                 case 0:
                     {
                         //do further analysis
+                        check2 = true;
                         break;
                     }
                 case 1:
@@ -159,6 +163,15 @@ namespace tppo_graphs
                         break;
                     }
             }
+
+            if (check1 && check2)
+            {
+                Program.isomorph();
+                Program.metrics();
+                Program.distance();
+            }
+
+
         }
 
         // elements shift and resize as the splitter is moved
@@ -180,7 +193,7 @@ namespace tppo_graphs
             //this.metrics_textBox.Size = new Size(this.isomorph_textBox.Size.Width, splitter_to_textBoxes - splitter);
             //this.distance_textBox.Size = new Size(this.isomorph_textBox.Size.Width, splitter_to_textBoxes - splitter);
 
-            input_label.Text = Convert.ToString(tabControl1.Size.Height);
+            //input_label.Text = Convert.ToString(tabControl1.Size.Height);
         }
     }
 }

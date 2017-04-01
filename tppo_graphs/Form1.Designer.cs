@@ -55,6 +55,7 @@
             this.metrics_textBox = new System.Windows.Forms.TextBox();
             this.distance_tabPage = new System.Windows.Forms.TabPage();
             this.distance_textBox = new System.Windows.Forms.TextBox();
+            this.advanced_view_checkBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -85,6 +86,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.advanced_view_checkBox);
             this.splitContainer1.Panel2.Controls.Add(this.output_label);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 100;
@@ -92,6 +94,7 @@
             this.splitContainer1.SplitterDistance = 330;
             this.splitContainer1.SplitterIncrement = 10;
             this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // analyze_button
             // 
@@ -125,9 +128,9 @@
             this.enter_matrix_label2.AutoSize = true;
             this.enter_matrix_label2.Location = new System.Drawing.Point(6, 128);
             this.enter_matrix_label2.Name = "enter_matrix_label2";
-            this.enter_matrix_label2.Size = new System.Drawing.Size(16, 13);
+            this.enter_matrix_label2.Size = new System.Drawing.Size(88, 13);
             this.enter_matrix_label2.TabIndex = 4;
-            this.enter_matrix_label2.Text = "...";
+            this.enter_matrix_label2.Text = "Матрица графа:";
             // 
             // textBox_matrix2
             // 
@@ -207,9 +210,9 @@
             this.enter_matrix_label1.AutoSize = true;
             this.enter_matrix_label1.Location = new System.Drawing.Point(6, 128);
             this.enter_matrix_label1.Name = "enter_matrix_label1";
-            this.enter_matrix_label1.Size = new System.Drawing.Size(16, 13);
+            this.enter_matrix_label1.Size = new System.Drawing.Size(88, 13);
             this.enter_matrix_label1.TabIndex = 4;
-            this.enter_matrix_label1.Text = "...";
+            this.enter_matrix_label1.Text = "Матрица графа:";
             // 
             // textBox_matrix1
             // 
@@ -293,10 +296,10 @@
             this.tabControl1.Controls.Add(this.isomorph_tabPage);
             this.tabControl1.Controls.Add(this.metrics_tabPage);
             this.tabControl1.Controls.Add(this.distance_tabPage);
-            this.tabControl1.Location = new System.Drawing.Point(1, 23);
+            this.tabControl1.Location = new System.Drawing.Point(1, 46);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(433, 266);
+            this.tabControl1.Size = new System.Drawing.Size(433, 243);
             this.tabControl1.TabIndex = 0;
             // 
             // isomorph_tabPage
@@ -305,7 +308,7 @@
             this.isomorph_tabPage.Location = new System.Drawing.Point(4, 22);
             this.isomorph_tabPage.Name = "isomorph_tabPage";
             this.isomorph_tabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.isomorph_tabPage.Size = new System.Drawing.Size(425, 240);
+            this.isomorph_tabPage.Size = new System.Drawing.Size(425, 217);
             this.isomorph_tabPage.TabIndex = 0;
             this.isomorph_tabPage.Text = "Изоморфизм графов";
             this.isomorph_tabPage.UseVisualStyleBackColor = true;
@@ -316,7 +319,7 @@
             this.isomorph_textBox.Multiline = true;
             this.isomorph_textBox.Name = "isomorph_textBox";
             this.isomorph_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.isomorph_textBox.Size = new System.Drawing.Size(409, 228);
+            this.isomorph_textBox.Size = new System.Drawing.Size(409, 205);
             this.isomorph_textBox.TabIndex = 1;
             // 
             // metrics_tabPage
@@ -359,6 +362,16 @@
             this.distance_textBox.Size = new System.Drawing.Size(409, 228);
             this.distance_textBox.TabIndex = 2;
             // 
+            // advanced_view_checkBox
+            // 
+            this.advanced_view_checkBox.AutoSize = true;
+            this.advanced_view_checkBox.Location = new System.Drawing.Point(5, 23);
+            this.advanced_view_checkBox.Name = "advanced_view_checkBox";
+            this.advanced_view_checkBox.Size = new System.Drawing.Size(299, 17);
+            this.advanced_view_checkBox.TabIndex = 2;
+            this.advanced_view_checkBox.Text = "Показывать промежуточные результаты вычислений";
+            this.advanced_view_checkBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,7 +389,6 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(splitContainer1_SplitterMoved);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -421,6 +433,7 @@
         private System.Windows.Forms.TextBox isomorph_textBox;
         private System.Windows.Forms.TextBox metrics_textBox;
         private System.Windows.Forms.TextBox distance_textBox;
+        private System.Windows.Forms.CheckBox advanced_view_checkBox;
     }
 }
 
