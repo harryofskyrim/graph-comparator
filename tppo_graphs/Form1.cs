@@ -59,7 +59,7 @@ namespace tppo_graphs
             bool check1 = false, check2 = false;
 
             // checking whether the first graph input is correct
-            switch (Program.isCorrect(textBox_matrix1.Text, textBox_vertices1.Text, textBox_edges1.Text, comboBox1.SelectedIndex, 1))
+            switch (Program.isCorrect(textBox_matrix1.Text, textBox_vertices1.Text, textBox_edges1.Text, comboBox1.SelectedIndex, 1, this))
             {
                 case 0:
                     {
@@ -70,13 +70,13 @@ namespace tppo_graphs
                 case 1:
                     {
                         //лишние символы во вводе
-                        MessageBox.Show("В поле ввода матрицы для графа 1 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы и цифры.","Ошибка ввода",MessageBoxButtons.OK);
+                        MessageBox.Show("В поле ввода матрицы для графа 1 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы, символ минуса и цифры 0 и 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
                 case 2:
                     {
                         //ввод не является правильной матрицей
-                        MessageBox.Show("Ввод в поле ввода матрицы для графа 1 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.", "Ошибка ввода", MessageBoxButtons.OK);
+                        MessageBox.Show("Ввод в поле ввода матрицы для графа 1 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.\nЕсли выбран метод ввода матрицей смежности, числами должны быть 0 или 1; если методом ввода выбрана матрица инцидентности - 0, 1 и -1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
                 case 3:
@@ -112,7 +112,7 @@ namespace tppo_graphs
             }
 
             // checking whether the second graph input is correct
-            switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, 2))
+            switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, 2, this))
             {
                 case 0:
                     {
@@ -123,13 +123,13 @@ namespace tppo_graphs
                 case 1:
                     {
                         //лишние символы во вводе
-                        MessageBox.Show("В поле ввода матрицы для графа 2 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы и цифры.", "Ошибка ввода", MessageBoxButtons.OK);
+                        MessageBox.Show("В поле ввода матрицы для графа 2 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы, символ минуса и цифры 0 и 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
                 case 2:
                     {
                         //ввод не является правильной матрицей
-                        MessageBox.Show("Ввод в поле ввода матрицы для графа 2 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.", "Ошибка ввода", MessageBoxButtons.OK);
+                        MessageBox.Show("Ввод в поле ввода матрицы для графа 2 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.\nЕсли выбран метод ввода матрицей смежности, числами должны быть 0 или 1; если методом ввода выбрана матрица инцидентности - 0, 1 и -1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
                 case 3:

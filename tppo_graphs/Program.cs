@@ -22,12 +22,12 @@ namespace tppo_graphs
 
         static bool isAllowedChar(char c)
         {
-            if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || (c >= '0' && c <= '9'))
+            if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '0' || c == '1' || c == '-')
                 return true;
             return false;
         }
 
-        public static int isCorrect(string matrix, string vertices, string edges, int method, int number)
+        public static int isCorrect(string matrix, string vertices, string edges, int method, int number, Form1 myform)
         {
             if (method < 0)
                 return 7; //не выбран метод ввода
@@ -48,7 +48,10 @@ namespace tppo_graphs
                 g[i] = new int[e];
             int j = 0;
             i = 0;
-            int n = -1;
+            int n = -2; // заведомо некорректное значение
+            int sign = 1;
+
+            myform.input_label.Text = Convert.ToString(v) + " " + Convert.ToString(e) + " ";
             for (int pos = 0; pos < m.Length; pos++)
             {
                 if (!isAllowedChar(m[pos]))
@@ -61,29 +64,48 @@ namespace tppo_graphs
                     //char c = m[pos];
                     //myform.input_label.Text += Convert.ToString((int)c) + " ";
 
-                    if (m[pos] >= '0' && m[pos] <= '9')
+                    if (m[pos] == '-')
                     {
-                        if (n < 0)
-                            n = 0;
-                        n = n * 10 + Convert.ToInt32(m[pos]);
+                        myform.input_label.Text += "-";
+                        if (method == 0 || sign == -1)
+                            return 2; //ввод не является правильной матрицей
+                        sign = -1;
                     }
-                    else if (n >= 0)
+                    else if (m[pos] == '0' || m[pos] == '1')
                     {
+                        if (n < -1)
+                        {
+                            //n = sign * (Convert.ToInt32(m[pos]) - Convert.ToInt32('0'));
+                            if (n == 0 && sign == -1)
+                                return 2; //ввод не является правильной матрицей
+                        }
+                        else
+                            return 2; //ввод не является правильной матрицей
+                        sign = 1;
+                        //myform.input_label.Text += "n";
+                    }
+                    else if (n >= -method) //если м.с. то 0, если м.и. то -1
+                    {
+                        //myform.input_label.Text += "w";
                         if (j == e)
                         {
                             j = 0;
                             i++;
                         }
-                        if(i==v)
+                        if (i == v)
                             return 3; //неправильное количество столбцов или строк
                         g[i][j] = n;
-                        n = -1;
+                        n = -2;
                         j++;
                     }
                     else if (m[pos] == '\r' && j < e)
                         return 2; //ввод не является правильной матрицей
+
+                    //myform.input_label.Text += Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(n) + "  ";
+
                 }
             }
+            //myform.input_label.Text = Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(v) + " " + Convert.ToString(e);
             if (!(i == v-1 && j == e) && !(i == v && j == 0))
                 return 2; //ввод не является правильной матрицей
 

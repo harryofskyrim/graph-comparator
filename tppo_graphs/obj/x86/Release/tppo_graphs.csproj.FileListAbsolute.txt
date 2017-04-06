@@ -1,0 +1,8 @@
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\bin\Release\tppo_graphs.exe
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\bin\Release\tppo_graphs.pdb
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.AboutHelp.resources
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.Form1.resources
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.Properties.Resources.resources
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.csproj.GenerateResource.Cache
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.exe
+C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.pdb
