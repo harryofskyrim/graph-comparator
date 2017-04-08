@@ -17,7 +17,17 @@ namespace tppo_graphs
         int splitter_to_tabControl;
         int splitter_to_tabPages;
         int splitter_to_tabTextBoxes;
-        
+
+        // коды ошибок, возвращаемых isCorrect():                
+        public const int IC_OK = 0; //do further analysis
+        public const int IC_EXTRA_SYMBOLS = 1; //лишние символы во вводе
+        public const int IC_NOT_A_MATRIX = 2; //ввод не является правильной матрицей
+        public const int IC_WRONG_NUMBER_OF_V_OR_E = 3; //неправильное количество столбцов или строк
+        public const int IC_MATRIX_ABSENT = 4; //не введена матрица
+        public const int IC_WRONG_INPUT_VERTICES = 5; //не выбрано количество вершин
+        public const int IC_WRONG_INPUT_EDGES = 6; //не выбрано количество рёбер
+        public const int IC_INPUT_METHOD_NOT_CHOSEN = 7; //не выбран метод ввода
+
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +39,13 @@ namespace tppo_graphs
             //splitter_to_tabTextBoxes = splitContainer1.SplitterDistance + isomorph_textBox.Size.Height;
         }
 
+        /* Функция делает поле ввода количества рёбер графа 1 видимым,
+         * если у графа 1 выбран метод ввода "Матрица инцидентности",
+         * и скрывает поле ввода количества рёбер, если у графа 1
+         * выбран метод ввода "Матрица смежности".
+         * Параметры:
+         *  object sender, eventArgs e - параметры функции по умолчанию
+         * **/
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.SelectedIndex == 0) {
@@ -42,6 +59,13 @@ namespace tppo_graphs
 
         }
 
+        /* Функция делает поле ввода количества рёбер графа 2 видимым,
+         * если у графа 2 выбран метод ввода "Матрица инцидентности",
+         * и скрывает поле ввода количества рёбер, если у графа 2
+         * выбран метод ввода "Матрица смежности".
+         * Параметры:
+         *  object sender, eventArgs e - параметры функции по умолчанию
+         * **/
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox2.SelectedIndex == 0) {
@@ -54,6 +78,13 @@ namespace tppo_graphs
             }
         }
 
+        /* Функция вызывает проверку ввода графов на корректность;
+         * в случае ошибок ввода выводит сообщение об ошибке,
+         * в случае, если проверка на корректность ввода пройдена - 
+         * вызывает функции анализа пар графов.
+         * Параметры:
+         *  object sender, eventArgs e - параметры функции по умолчанию
+         * **/
         private void analyze_button_Click(object sender, EventArgs e)
         {
             bool check1 = false, check2 = false;
@@ -61,49 +92,49 @@ namespace tppo_graphs
             // checking whether the first graph input is correct
             switch (Program.isCorrect(textBox_matrix1.Text, textBox_vertices1.Text, textBox_edges1.Text, comboBox1.SelectedIndex, 1, this))
             {
-                case 0:
+                case IC_OK:
                     {
                         //do further analysis
                         check1 = true;
                         break;
                     }
-                case 1:
+                case IC_EXTRA_SYMBOLS:
                     {
                         //лишние символы во вводе
                         MessageBox.Show("В поле ввода матрицы для графа 1 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы, символ минуса и цифры 0 и 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 2:
+                case IC_NOT_A_MATRIX:
                     {
                         //ввод не является правильной матрицей
                         MessageBox.Show("Ввод в поле ввода матрицы для графа 1 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.\nЕсли выбран метод ввода матрицей смежности, числами должны быть 0 или 1; если методом ввода выбрана матрица инцидентности - 0, 1 и -1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 3:
+                case IC_WRONG_NUMBER_OF_V_OR_E:
                     {
                         //неправильное количество столбцов или строк
                         MessageBox.Show("Ввод в поле ввода матрицы для графа 1 предусматривает иное количество столбцов или строк, чем заданное.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 4:
+                case IC_MATRIX_ABSENT:
                     {
                         //не введена матрица
                         MessageBox.Show("Отсутствует ввод в поле ввода матрицы для графа 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 5:
+                case IC_WRONG_INPUT_VERTICES:
                     {
                         //не выбрано количество вершин
                         MessageBox.Show("Отсуствует ввод в поле ввода количества вершин для графа 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 6:
+                case IC_WRONG_INPUT_EDGES:
                     {
                         //не выбрано количество рёбер
                         MessageBox.Show("Отсуствует ввод в поле ввода количества рёбер для графа 1.", "Ошибка ввода", MessageBoxButtons.OK);
                         break;
                     }
-                case 7:
+                case IC_INPUT_METHOD_NOT_CHOSEN:
                     {
                         //не выбран метод ввода
                         MessageBox.Show("Не выбран тип вводимой матрицы для графа 1.", "Ошибка ввода", MessageBoxButtons.OK);
@@ -111,70 +142,74 @@ namespace tppo_graphs
                     }
             }
 
-            // checking whether the second graph input is correct
-            switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, 2, this))
+            if (check1)
             {
-                case 0:
-                    {
-                        //do further analysis
-                        check2 = true;
-                        break;
-                    }
-                case 1:
-                    {
-                        //лишние символы во вводе
-                        MessageBox.Show("В поле ввода матрицы для графа 2 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы, символ минуса и цифры 0 и 1.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 2:
-                    {
-                        //ввод не является правильной матрицей
-                        MessageBox.Show("Ввод в поле ввода матрицы для графа 2 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.\nЕсли выбран метод ввода матрицей смежности, числами должны быть 0 или 1; если методом ввода выбрана матрица инцидентности - 0, 1 и -1.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 3:
-                    {
-                        //неправильное количество столбцов или строк
-                        MessageBox.Show("Ввод в поле ввода матрицы для графа 2 предусматривает иное количество столбцов или строк, чем заданное.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 4:
-                    {
-                        //не введена матрица
-                        MessageBox.Show("Отсутствует ввод в поле ввода матрицы для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 5:
-                    {
-                        //не выбрано количество вершин
-                        MessageBox.Show("Отсуствует ввод в поле ввода количества вершин для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 6:
-                    {
-                        //не выбрано количество рёбер
-                        MessageBox.Show("Отсуствует ввод в поле ввода количества рёбер для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
-                case 7:
-                    {
-                        //не выбран метод ввода
-                        MessageBox.Show("Не выбран тип вводимой матрицы для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
-                        break;
-                    }
+                // checking whether the second graph input is correct
+                switch (Program.isCorrect(textBox_matrix2.Text, textBox_vertices2.Text, textBox_edges2.Text, comboBox2.SelectedIndex, 2, this))
+                {
+                    case IC_OK:
+                        {
+                            //do further analysis
+                            check2 = true;
+                            break;
+                        }
+                    case IC_EXTRA_SYMBOLS:
+                        {
+                            //лишние символы во вводе
+                            MessageBox.Show("В поле ввода матрицы для графа 2 замечены лишние символы.\nВ поле ввода можно вводить только пробельные символы, символ минуса и цифры 0 и 1.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_NOT_A_MATRIX:
+                        {
+                            //ввод не является правильной матрицей
+                            MessageBox.Show("Ввод в поле ввода матрицы для графа 2 не является правильной матрицей.\nПравильная матрица должна состоять из заданного количества строк, разделённых переводами строк, и содержать в каждой строке заданное количество целых чисел, разделённых пробелами.\nЕсли выбран метод ввода матрицей смежности, числами должны быть 0 или 1; если методом ввода выбрана матрица инцидентности - 0, 1 и -1.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_WRONG_NUMBER_OF_V_OR_E:
+                        {
+                            //неправильное количество столбцов или строк
+                            MessageBox.Show("Ввод в поле ввода матрицы для графа 2 предусматривает иное количество столбцов или строк, чем заданное.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_MATRIX_ABSENT:
+                        {
+                            //не введена матрица
+                            MessageBox.Show("Отсутствует ввод в поле ввода матрицы для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_WRONG_INPUT_VERTICES:
+                        {
+                            //не выбрано количество вершин
+                            MessageBox.Show("Отсуствует ввод в поле ввода количества вершин для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_WRONG_INPUT_EDGES:
+                        {
+                            //не выбрано количество рёбер
+                            MessageBox.Show("Отсуствует ввод в поле ввода количества рёбер для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                    case IC_INPUT_METHOD_NOT_CHOSEN:
+                        {
+                            //не выбран метод ввода
+                            MessageBox.Show("Не выбран тип вводимой матрицы для графа 2.", "Ошибка ввода", MessageBoxButtons.OK);
+                            break;
+                        }
+                }
+
+                if (check2)
+                {
+                    Program.isomorph();
+                    Program.metrics();
+                    Program.distance();
+                }
             }
-
-            if (check1 && check2)
-            {
-                Program.isomorph();
-                Program.metrics();
-                Program.distance();
-            }
-
-
         }
 
-        // elements shift and resize as the splitter is moved
+        /* Функция, меняющая размер или положение элементов
+         * формы в завиисимости от положения разделителя.
+         *  object sender, SplitterEventArgs e - параметры функции по умолчанию
+         * **/
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
             int splitter = splitContainer1.SplitterDistance;
