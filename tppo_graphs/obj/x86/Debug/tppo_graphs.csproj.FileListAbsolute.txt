@@ -16,3 +16,9 @@ D:\GC\tppo_graphs\bin\Debug\tppo_graphs.exe
 D:\GC\tppo_graphs\bin\Debug\tppo_graphs.pdb
 D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
 D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+D:\graph-comparator\tppo_graphs\bin\Debug\tppo_graphs.exe
+D:\graph-comparator\tppo_graphs\bin\Debug\tppo_graphs.pdb
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.Form1.resources
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.resources
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache

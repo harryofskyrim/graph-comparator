@@ -13,12 +13,12 @@ namespace tppo_graphs
         public Graph(int[][] g, int vertices)
         {
             m = new int[vertices][];
+            v = vertices;
             for (int i = 0; i < v; i++)
             {
                 m[i] = new int[vertices];
                 g[i].CopyTo(m[i], 0);
             }
-            v = vertices;
         }
 
         /* Обход графа в глубину с проверкой на наличие циклов.

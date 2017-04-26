@@ -154,97 +154,124 @@ namespace tppo_graphs
             if (method < 0)
                 return Form1.IC_INPUT_METHOD_NOT_CHOSEN; //не выбран метод ввода
             int v=1, e=1;
-            if (!int.TryParse(vertices, out v))
+            if (!int.TryParse(vertices, out v) || v < 0)
                 return Form1.IC_WRONG_INPUT_VERTICES; //не выбрано количество вершин
-            if (method == 1 && !int.TryParse(edges, out e))
+            if (method == 1 && (!int.TryParse(edges, out e) || e < 0))
                 return Form1.IC_WRONG_INPUT_EDGES; //не выбрано количество рёбер
-            if (matrix == "")
-                return Form1.IC_MATRIX_ABSENT; //не введена матрица
-            string m = matrix + " ";
-            if (method == 0)
-                e = v;
-
             int[][] g = new int[v][];
-            int i;
-            for (i = 0; i < v; i++)
-                g[i] = new int[e];
-            int j = 0;
-            i = 0;
-            int n = -2; // заведомо некорректное значение
-            int sign = 1;
-
-            myform.input_label.Text = Convert.ToString(v) + " " + Convert.ToString(e) + " ";
-            for (int pos = 0; pos < m.Length; pos++)
+            if (method == 1 && e == 0) //если вводится "пустая" матрица инцидентности графа без рёбер
             {
-                if (!isAllowedChar(m[pos]))
+                for (int i = 0; i < v; i++)
                 {
-                    return Form1.IC_EXTRA_SYMBOLS; //лишние символы во вводе
-                }
-                else
-                {
-                    //debug
-                    //char c = m[pos];
-                    //myform.input_label.Text += Convert.ToString((int)c) + " ";
-
-                    if (m[pos] == '-')
-                    {
-                        myform.input_label.Text += "-";
-                        if (method == 0 || sign == -1)
-                            return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
-                        sign = -1;
-                    }
-                    else if (m[pos] == '0' || m[pos] == '1')
-                    {
-                        if (n < -1)
-                        {
-                            //n = sign * (Convert.ToInt32(m[pos]) - Convert.ToInt32('0'));
-                            if (n == 0 && sign == -1)
-                                return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
-                        }
-                        else
-                            return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
-                        sign = 1;
-                        //myform.input_label.Text += "n";
-                    }
-                    else if (n >= -method) //если м.с. то 0, если м.и. то -1
-                    {
-                        //myform.input_label.Text += "w";
-                        if (j == e)
-                        {
-                            j = 0;
-                            i++;
-                        }
-                        if (i == v)
-                            return Form1.IC_WRONG_NUMBER_OF_V_OR_E; //неправильное количество столбцов или строк
-                        g[i][j] = n;
-                        n = -2;
-                        j++;
-                    }
-                    else if (m[pos] == '\r' && j < e)
-                        return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
-
-                    //myform.input_label.Text += Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(n) + "  ";
-
+                    g[i] = new int[v];
+                    for (int j = 0; j < v; j++)
+                        g[i][j] = 0;
                 }
             }
-            //myform.input_label.Text = Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(v) + " " + Convert.ToString(e);
-            if (!(i == v-1 && j == e) && !(i == v && j == 0))
-                return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
-
-            if (method == 2)
+            else
             {
-                int cnt;
-                for (j = 0; j < e; j++)
+                if (matrix == "")
+                    return Form1.IC_MATRIX_ABSENT; //не введена матрица
+                string m = matrix + " ";
+                if (method == 0)
+                    e = v;
+
+                int i;
+                for (i = 0; i < v; i++)
+                    g[i] = new int[e];
+                int j = 0;
+                i = 0;
+                int n = -2; // заведомо некорректное значение
+                int sign = 1;
+
+                //myform.input_label.Text = Convert.ToString(v) + " " + Convert.ToString(e) + " ";
+                for (int pos = 0; pos < m.Length; pos++)
                 {
-                    cnt = 0;
-                    for (i = 0; i < v && cnt <= 2; i++)
-                        if (g[j][i] != 0)
-                            cnt++;
-                    if (cnt > 2)
-                        return Form1.IС_INC_WRONG_FORMAT;
+                    if (!isAllowedChar(m[pos]))
+                    {
+                        return Form1.IC_EXTRA_SYMBOLS; //лишние символы во вводе
+                    }
+                    else
+                    {
+                        //debug
+                        //char c = m[pos];
+                        //myform.input_label.Text += Convert.ToString((int)c) + " ";
+
+                        if (m[pos] == '-')
+                        {
+                            myform.input_label.Text += "-";
+                            if (method == 0 || sign == -1)
+                            {
+                                //myform.input_label.Text += "NAM1";
+                                return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
+                            }
+                            sign = -1;
+                        }
+                        else if (m[pos] == '0' || m[pos] == '1')
+                        {
+                            if (n < -1)
+                            {
+                                n = sign * (Convert.ToInt32(m[pos]) - Convert.ToInt32('0'));
+                                if (n == 0 && sign == -1)
+                                {
+                                    //myform.input_label.Text += "NAM2";
+                                    return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
+                                }
+                            }
+                            else
+                            {
+                                //myform.input_label.Text += "NAM3";
+                                return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
+                            }
+                            sign = 1;
+                            //myform.input_label.Text += "n";
+                        }
+                        else if (n >= -method) //если м.с. то 0, если м.и. то -1
+                        {
+                            //myform.input_label.Text += "w";
+                            if (j == e)
+                            {
+                                j = 0;
+                                i++;
+                            }
+                            if (i == v)
+                                return Form1.IC_WRONG_NUMBER_OF_V_OR_E; //неправильное количество столбцов или строк
+                            g[i][j] = n;
+                            n = -2;
+                            j++;
+                        }
+                        else if (m[pos] == '\r' && j < e)
+                        {
+                            //myform.input_label.Text += "NAM4";
+                            return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
+                        }
+
+                        //myform.input_label.Text += Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(n) + "  ";
+
+                    }
+                }
+                //myform.input_label.Text = Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(v) + " " + Convert.ToString(e);
+                if (!(i == v - 1 && j == e) && !(i == v && j == 0))
+                {
+                    //myform.input_label.Text += "NAM5";
+                    return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
                 }
 
-                g = inctoadj(g, v, e);
+                if (method == 2)
+                {
+                    int cnt;
+                    for (j = 0; j < e; j++)
+                    {
+                        cnt = 0;
+                        for (i = 0; i < v && cnt <= 2; i++)
+                            if (g[j][i] != 0)
+                                cnt++;
+                        if (cnt > 2)
+                            return Form1.IС_INC_WRONG_FORMAT;
+                    }
+
+                    g = inctoadj(g, v, e);
+                }
             }
 
             Graph a = new Graph(g, v);
