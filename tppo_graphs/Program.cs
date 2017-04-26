@@ -12,6 +12,22 @@ using System.Windows.Forms;
 
 namespace tppo_graphs
 {
+    class IncMatrix_for_return_value
+    {
+        int[][] m;
+        int e;
+        public IncMatrix_for_return_value(int[][] g, int vertices, int edjes)
+        {
+            g = new int[vertices][];
+            for (int i = 0; i < vertices; i++)
+            {
+                m[i] = new int[edjes];
+                g[i].CopyTo(this.m[i], 0);
+            }
+            e = edjes;
+        }
+    }
+
     static class Program
     {
         /// <summary>
@@ -20,6 +36,81 @@ namespace tppo_graphs
         /// 
 
         static Graph[] gr = new Graph[2];
+
+        /* Функция создаёт матрицу смежности графа, описанного
+         * в передаваемой матрице инцидентности.
+         * Параметры:
+         *  int[][] g - матрица инцидентности графа;
+         *  int v - количество вершин в графе;
+         *  int e - количество рёбер в графе.
+         *  Возвращает двухмерный массив (матрицу смежности).
+         **/
+        public static int[][] inctoadj(int[][] g, int v, int e) 
+        {
+            int[][] ng = new int[v][];
+            for (int i = 0; i < v; i++)
+                ng[i] = new int[e];
+            int e_start = 0, e_end = 0;
+            for (int j = 0; j < e; j++)
+            {
+                e_end = -1;
+                for (int i = 0; i < v; i++)
+                {
+                    if (e_end < 0 && g[i][j] == 1)
+                        e_end = i;
+                    else if (g[i][j] != 0)
+                        e_start = i;
+                }
+                ng[e_start][e_end] = 1;
+            }
+            return ng;
+        }
+
+        /* Функция создаёт матрицу инцидентности графа, описанного
+         * в передаваемой матрице смежности.
+         * Параметры:
+         *  int[][] g - матрица смежности графа;
+         *  int v - количество вершин в графе;
+         *  Возвращает класс IncMatrix_for_return_value, который
+         *  представляет из себя пару: двухмерный массив (матрицу
+         *  инцидентности) и целое число (количество рёбер).
+         **/
+        public static IncMatrix_for_return_value adjtoinc(int[][] g, int v)
+        {
+            int e = 0;
+            bool flag = false;
+            for (int i = 0; i < v; i++)
+                for (int j = i+1; j < v; j++)
+                    if(g[i][j] != g[j][i])
+                    {
+                        flag = true;
+                        break;
+                    }
+            
+            for (int i = 0; i < v; i++)
+                for (int j = flag ? 0 : i+1; j < v; j++)
+                        if(g[i][j] == 1)
+                        {
+                            e++;
+                        }
+            int[][] ng = new int[v][];
+            for (int i = 0; i < v; i++)
+                ng[i] = new int[e];
+            
+            e = 0;
+            for (int i = 0; i < v; i++)
+                for (int j = flag ? 0 : i+1; j < v; j++)
+                        if(g[i][j] == 1)
+                        {
+                            ng[i][e] = flag ? -1 : 1;
+                            ng[j][e] = 1;
+                            e++;
+                        }
+
+            IncMatrix_for_return_value res = new IncMatrix_for_return_value(ng, v, e);
+            return res;
+        }
+        
 
         public static void isomorph() {}
         public static void metrics() { }
@@ -55,7 +146,8 @@ namespace tppo_graphs
          *  Form1.IC_MATRIX_ABSENT = 4 - не введена матрица;
          *  Form1.IC_WRONG_INPUT_VERTICES = 5 - не выбрано количество вершин;
          *  Form1.IC_WRONG_INPUT_EDGES = 6 - не выбрано количество рёбер;
-         *  Form1.IC_INPUT_METHOD_NOT_CHOSEN = 7 - не выбран метод ввода.
+         *  Form1.IC_INPUT_METHOD_NOT_CHOSEN = 7 - не выбран метод ввода;
+         *  Form1.IC_INC_WRONG_FORMAT = 8 - одно ребро соединяет больше двух вершин в матрице инцидентности;
          * **/
         public static int isCorrect(string matrix, string vertices, string edges, int method, int number, Form1 myform)
         {
@@ -138,6 +230,22 @@ namespace tppo_graphs
             //myform.input_label.Text = Convert.ToString(i) + " " + Convert.ToString(j) + " " + Convert.ToString(v) + " " + Convert.ToString(e);
             if (!(i == v-1 && j == e) && !(i == v && j == 0))
                 return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
+
+            if (method == 2)
+            {
+                int cnt;
+                for (j = 0; j < e; j++)
+                {
+                    cnt = 0;
+                    for (i = 0; i < v && cnt <= 2; i++)
+                        if (g[j][i] != 0)
+                            cnt++;
+                    if (cnt > 2)
+                        return Form1.IС_INC_WRONG_FORMAT;
+                }
+
+                g = inctoadj(g, v, e);
+            }
 
             Graph a = new Graph(g, v);
             gr[number - 1] = a;

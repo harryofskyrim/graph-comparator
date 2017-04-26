@@ -6,3 +6,13 @@ C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.cspro
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.Form1.resources
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.resources
+D:\GC\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache
+D:\GC\tppo_graphs\bin\Debug\tppo_graphs.exe
+D:\GC\tppo_graphs\bin\Debug\tppo_graphs.pdb
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
+D:\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
