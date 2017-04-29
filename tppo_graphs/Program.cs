@@ -110,9 +110,84 @@ namespace tppo_graphs
             IncMatrix_for_return_value res = new IncMatrix_for_return_value(ng, v, e);
             return res;
         }
-        
 
-        public static void isomorph() {}
+
+        /* Функция совершает обход графа в ширину из заданной
+         * вершины и возвращает расстояния от неё до всех вершин
+         * Параметры:
+         *  int v - вершина,из которой начинается обход;
+         *  Graph a - граф, по которому совершается обход.
+         * Возвращает массив целых чисел, в iй ячейке которого
+         * хранится количество вершин в графе на расстоянии i
+         * от данной вершины.
+         **/
+        int[] iso_bfs (int v, Graph a)
+        {
+            int[] was = new int[a.v];
+            int[] res = new int[a.v];
+            for (int i = 0; i < v; i++)
+                was[i] = -1;
+            Array.Clear(res, 0, a.v);
+
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(v);
+
+            was[v] = 0;
+
+            while (q.Count > 0)
+            {
+                v = q.Dequeue();
+                for (int i = 0; i < v; i++)
+                {
+                    if (a.m[v][i] == 1 && was[i] < 0)
+                    {
+                        was[i] = Math.Min(was[i], was[v] + 1);
+                        res[was[i]]++;
+                        q.Enqueue(i);
+                    }
+                }
+            }
+            return res;
+        }
+
+        /* Функция считает вершинный инвариант графа
+         * Параметры: Graph a - данный граф
+         * Возвращает массив, в iй ячейке которого хранится
+         * массив целых чисел, в jй ячейке которого хранится
+         * количество вершин в графе на расстоянии j от вершины i.
+         **/
+        int[][] iso_inv(Graph a)
+        {
+            int[][] res = new int[a.v][];
+            for (int i = 0; i < a.v; i++)
+                res[i] = iso_bfs(i, a);
+            return res;
+        }
+
+        /* Функция проверяет массив соответствий f на противоречия.
+         * Параметры:
+         *  int k - вершина из графа 1
+         *  int j - вершина из графа 2
+         *  int[] f - массив соответсвий вершин графов 1 и 2
+         * Возвращает true, если для каждого ребра графа 1 [i][k]
+         * существует ребро графа 2 [f[i]][j], иначе возвращает false.
+         **/
+        bool iso_canMatch(int k, int j, int[] f)
+        {
+            for (int i = 0; i < gr[0].v; i++)
+            {
+                if (gr[0].m[i][k] == 0 || gr[1].m[f[i]][j] == 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public static void isomorph()
+        {
+
+        }
+        
+        
         public static void metrics() { }
         public static void distance() { }
 

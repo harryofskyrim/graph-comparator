@@ -7,8 +7,8 @@ namespace tppo_graphs
 {
     class Graph
     {
-        static int v; //количество строк
-        static int[][] m; //матрица смежности графа
+        public int v; //количество строк
+        public int[][] m; //матрица смежности графа
 
         public Graph(int[][] g, int vertices)
         {
