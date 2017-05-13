@@ -28,12 +28,39 @@ namespace tppo_graphs
         }
     }
 
-    static class Program
+    class Program
     {
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         /// 
+
+        /* Функция метяет метсами значения двух целых чисел.
+         * Параметры:
+         *  ref int x, ref int y - два значения, которые нужно поменять местами
+         * Ничего не возвращает, изменённые значения передаются в вызывающий метод
+         * по ссылке.
+         */
+        public void swap(ref int x, ref int y)
+        {
+            int z = x;
+            x = y;
+            y = z;
+        }
+
+        /* Функция метяет метсами значения двух массивов целых чисел.
+         * Параметры:
+         *  ref int[] x, ref int[] y - два массива, которые нужно поменять местами
+         * Ничего не возвращает, изменённые значения передаются в вызывающий метод
+         * по ссылке.
+         */
+        public void swap(ref int[] x, ref int[] y, int n)
+        {
+            int[] z = new int[n];
+            x.CopyTo(z, 0);
+            y.CopyTo(x, 0);
+            z.CopyTo(y, 0);
+        }
 
         static Graph[] gr = new Graph[2];
 
@@ -180,6 +207,69 @@ namespace tppo_graphs
                     return false;
             }
             return true;
+        }
+
+        /* Функция переупорядочивает вершины в данном графе по возрастанию значений
+         * массива im, меняя при этом ещё и матрицу инварианта графа.
+         * Параметры:
+         *  ref Graph a - данный граф
+         *  ref int[][] inv - инвариант данного графа
+         *  ref int[] im - значения, по которым будут упоряочиваться вершины графа
+         *  int l - левая граница сортировки
+         *  int r - правая граница сортировки
+         *  Ничего не возвращает, изменённые значения передаются в вызывающий метод
+         *  по ссылке.
+         */
+        void iso_reorder_sort(ref Graph a, ref int[][] inv, ref int[] im, int l, int r)
+        {
+            Random random = new Random();
+            int x = im[l + random.Next(0, r - l)];
+	        int i=l, j=r;
+	        while(i<=j)
+	        {
+		        while(im[i]<x)
+			        i++;
+		        while(im[j]>x)
+			        j--;
+		        if(i<=j)
+		        {
+                    swap(ref im[i], ref im[j]);
+                    swap(ref a.m[i], ref a.m[j], a.v);
+                    swap(ref inv[i], ref inv[j], a.v);
+			        i++;
+			        j--;
+		        }
+	        }
+	        if(l<j)
+                iso_reorder_sort(ref a, ref inv, ref im, l, j);
+	        if(i<r)
+                iso_reorder_sort(ref a, ref inv, ref im, i, r);
+        }
+
+        /* Функция перенумерует вершины графа по инвариантной множественности.
+         * Параметры:
+         *  ref Graph a - данный граф
+         *  ref int[][] inv - инвариант данного графа
+         * Ничего не возвращает, изменённые значения Graph a и int[][] inv
+         * передаются в вызывающий метод по ссылке.
+         */
+        void iso_reorder(ref Graph a, ref int[][] inv)
+        {
+            int[] im = new int[a.v];
+            Array.Clear(im, 0, a.v);
+            for(int i = 0; i < a.v; i++)
+            {
+                int[] im1 = new int[a.v];
+                Array.Clear(im1, 0, a.v);
+                for (int j = 0; j < a.v; j++)
+                    im1[inv[i][j]]++;
+
+                for (int j = 0; j < a.v; j++)
+                    if (im1[j] > 1)
+                        im[i] += im1[j];
+            }
+
+            iso_reorder_sort(ref a, ref inv, ref im, 0, a.v-1);
         }
 
         public static void isomorph()
