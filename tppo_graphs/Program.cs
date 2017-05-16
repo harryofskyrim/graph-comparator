@@ -41,7 +41,7 @@ namespace tppo_graphs
          * Ничего не возвращает, изменённые значения передаются в вызывающий метод
          * по ссылке.
          */
-        public void swap(ref int x, ref int y)
+        public static  void swap(ref int x, ref int y)
         {
             int z = x;
             x = y;
@@ -54,7 +54,7 @@ namespace tppo_graphs
          * Ничего не возвращает, изменённые значения передаются в вызывающий метод
          * по ссылке.
          */
-        public void swap(ref int[] x, ref int[] y, int n)
+        public static void swap(ref int[] x, ref int[] y, int n)
         {
             int[] z = new int[n];
             x.CopyTo(z, 0);
@@ -148,10 +148,9 @@ namespace tppo_graphs
          * хранится количество вершин в графе на расстоянии i
          * от данной вершины.
          **/
-        int[] iso_bfs (int v, Graph a)
+        static void iso_bfs (ref int[] res, int v, Graph a)
         {
             int[] was = new int[a.v];
-            int[] res = new int[a.v];
             for (int i = 0; i < v; i++)
                 was[i] = -1;
             Array.Clear(res, 0, a.v);
@@ -174,7 +173,6 @@ namespace tppo_graphs
                     }
                 }
             }
-            return res;
         }
 
         /* Функция считает вершинный инвариант графа
@@ -183,12 +181,13 @@ namespace tppo_graphs
          * массив целых чисел, в jй ячейке которого хранится
          * количество вершин в графе на расстоянии j от вершины i.
          **/
-        int[][] iso_inv(Graph a)
+        static void iso_inv(ref int[][] res, Graph a)
         {
-            int[][] res = new int[a.v][];
             for (int i = 0; i < a.v; i++)
-                res[i] = iso_bfs(i, a);
-            return res;
+            {
+                res[i] = new int[a.v];
+                iso_bfs(ref res[i], i, a);
+            }
         }
 
         /* Функция проверяет массив соответствий f на противоречия.
@@ -199,7 +198,7 @@ namespace tppo_graphs
          * Возвращает true, если для каждого ребра графа 1 [i][k]
          * существует ребро графа 2 [f[i]][j], иначе возвращает false.
          **/
-        bool iso_canMatch(int k, int j, int[] f)
+        static bool iso_canMatch(int k, int j, int[] f)
         {
             for (int i = 0; i < gr[0].v; i++)
             {
@@ -220,7 +219,7 @@ namespace tppo_graphs
          *  Ничего не возвращает, изменённые значения передаются в вызывающий метод
          *  по ссылке.
          */
-        void iso_reorder_sort(ref Graph a, ref int[][] inv, ref int[] im, int l, int r)
+        static void iso_reorder_sort(ref Graph a, ref int[][] inv, ref int[] im, int l, int r)
         {
             Random random = new Random();
             int x = im[l + random.Next(0, r - l)];
@@ -253,7 +252,7 @@ namespace tppo_graphs
          * Ничего не возвращает, изменённые значения Graph a и int[][] inv
          * передаются в вызывающий метод по ссылке.
          */
-        void iso_reorder(ref Graph a, ref int[][] inv)
+        static void iso_reorder(ref Graph a, ref int[][] inv)
         {
             int[] im = new int[a.v];
             Array.Clear(im, 0, a.v);
@@ -272,12 +271,119 @@ namespace tppo_graphs
             iso_reorder_sort(ref a, ref inv, ref im, 0, a.v-1);
         }
 
-        public static void isomorph()
+		// Параметры: inS - множество изоморфных вершин,
+		// v - добавляемая в изоморфизм вершина (при вызове = -1),
+		// остальное понятно. ref означает, что все изменения в f
+		// сохранятся при выходе из функции (передача параметра по ссылке).
+        public static bool isomorph(int[] inS, int v, int k, ref int[] f, int[][] inv1, int[][] inv2)
         {
+            if (k == gr[2].v + 1)
+                return true;
 
+            if(v >= 0)
+                inS[v] = 1;
+
+            for(int j = 0; j < gr[2].v; j++) 
+                if(inS[j] == 0) {
+                    if (inv1[k] != inv2[j] && !(iso_canMatch(k, j, f)))
+                        continue;
+                    f[k] = j;
+                    if (isomorph(inS, j, k+1, ref f, inv1, inv2))
+                        return true;
+                }
+            return false;
+        }
+
+        /* Функция лексикографически сравнивает два массива одинаковой длины.
+         * Параметры: int[] a, int[] b - сравниваемые массивы
+         * Возвращает true, если массив a лексикографически меньше b, иначе false
+         */
+        static bool iso_comp_arrays(int[] a, int[] b)
+        {
+            for (int i = 0; i < a.Count(); i++)
+            {
+                if (a[i] < b[i])
+                    return true;
+                else if (a[i] > b[i])
+                    return false;
+            }
+            return false;
+        }
+
+        /* Функция сортирует данные массивы массивов (инварианты).
+         * Параметры:
+         *  ref int[][] inv - сортируемый массив (массивов)
+         *  int l - левая граница сортировки
+         *  int r - правая граница сортировки
+         * Отсортированный массив передаётся в вызывающий метод по ссылке.
+         */
+        static void iso_sort_inv(ref int[][] inv, int l, int r)
+        {
+            Random random = new Random();
+            int[] x = inv[l + random.Next(0, r - l)];
+            int i = l, j = r;
+            while (i <= j)
+            {
+                // inv[i] < x
+                while (iso_comp_arrays(inv[i], x))
+                    i++;
+                // inv[j] > x
+                while (iso_comp_arrays(x, inv[j]))
+                    j--;
+                if (i <= j)
+                {
+                    swap(ref inv[i], ref inv[j], inv[i].Count());
+                    i++;
+                    j--;
+                }
+            }
+            if (l < j)
+                iso_sort_inv(ref inv, l, j);
+            if (i < r)
+                iso_sort_inv(ref inv, i, r);
         }
         
-        
+        /* Функция, выполняющая алгоритм проверки двух графов на изоморфизм.
+         * Параметры: Form1 myform - форма приложения для вывода ответа.
+         */
+        public static void isomorph_main(Form1 myform)
+        {
+			if (gr[1].v != gr[2].v) {
+                myform.isomorph_write("Графы не изоморфны");
+                return;
+            }
+            
+            int[][] inv1 = new int[gr[1].v][];
+            int[][] inv2 = new int[gr[2].v][];
+            iso_inv(ref inv1, gr[1]);
+            iso_inv(ref inv2, gr[2]);
+            // Инварианты сортируются для сравнения
+            iso_sort_inv(ref inv1, 0, gr[1].v - 1);
+            iso_sort_inv(ref inv2, 0, gr[2].v - 1);
+
+            for(int i = 0; i < gr[2].v; i++)
+                for (int j = 0; j < gr[2].v; j++) 
+                    if (inv1[i][j] != inv2[i][j])
+                    {
+					    myform.isomorph_write("Графы не изоморфны");
+					    return;
+				    }
+			
+			iso_reorder(ref gr[1], ref inv1);
+
+            int[] inS = new int[gr[2].v];
+            Array.Clear(inS, 0, gr[2].v);
+
+            int[] f = new int[gr[2].v];
+            
+            if (isomorph(inS, -1, 1, ref f, inv1, inv2)) {
+				// Тут должен быть красивый вывод содержимого f в строку str
+                // Для вывода надо будет вызвать myform.isomorph_write(str);
+            } else {
+                myform.isomorph_write("Графы не изоморфны");
+            }
+        }
+
         public static void metrics() { }
         public static void distance() { }
 

@@ -212,11 +212,19 @@ namespace tppo_graphs
 
                 if (check2)
                 {
-                    Program.isomorph();
+                    Program.isomorph_main(this);
                     Program.metrics();
                     Program.distance();
                 }
             }
+        }
+
+        /* Функция, записывающая результат работы функции isomorph_main() в isomorph_textBox
+         * Параметры: string s - строка для вывода в isomorph_textBox
+         */
+        public void isomorph_write(string s)
+        {
+            isomorph_textBox.Text = s;
         }
 
         /* Функция, меняющая размер или положение элементов
