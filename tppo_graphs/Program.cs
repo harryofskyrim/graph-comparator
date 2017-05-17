@@ -383,8 +383,109 @@ namespace tppo_graphs
                 myform.isomorph_write("Графы не изоморфны");
             }
         }
+    
+        //Вспомогательные компоненты для ф-ии metrics
+        static HashSet<KeyValuePair<char, char>> compsub = new HashSet<KeyValuePair<char, char>>();
+        static int maxsize = 0;
 
-        public static void metrics() { }
+        //Вспомогательная ф-ия для ф-ии metrics
+        static bool check(HashSet<KeyValuePair<char, char>> candidates, HashSet<KeyValuePair<char, char>> not, char[,][,] M)
+        {
+            bool res;
+            foreach (KeyValuePair<char, char> w in not)
+            {
+                res = true;
+                foreach (KeyValuePair<char, char> e in candidates)
+                {
+                    if (M[w.Key, w.Value][e.Key, e.Value] == 0)
+                    {
+                        res = false;
+                        break;
+                    }
+                }
+                if (res)
+                    return false;
+            }
+            return true;
+        }
+
+        //Вспомогательная ф-ия для ф-ии metrics
+        static void extend(HashSet<KeyValuePair<char, char>> oldCandidates, HashSet<KeyValuePair<char, char>> oldNot, HashSet<KeyValuePair<char, char>> mem, char[,][,] M)
+        {
+            //Костыль, т.к. коллекции передаются по ссылке
+            HashSet<KeyValuePair<char, char>> candidates = new HashSet<KeyValuePair<char, char>>();
+            HashSet<KeyValuePair<char, char>> not = new HashSet<KeyValuePair<char, char>>();
+            candidates.UnionWith(oldCandidates);
+            not.UnionWith(oldNot);
+            while (candidates.Count != 0 && check(candidates, not, M))
+            {
+                KeyValuePair<char, char> A = candidates.First();
+                compsub.Add(A);
+                HashSet<KeyValuePair<char, char>> newCandidates = new HashSet<KeyValuePair<char, char>>();
+                HashSet<KeyValuePair<char, char>> newNot = new HashSet<KeyValuePair<char, char>>();
+                newCandidates.UnionWith(candidates);
+                newNot.UnionWith(not);
+                mem.Clear();
+                foreach (KeyValuePair<char, char> i in newCandidates)
+                {
+                    if (M[i.Key, i.Value][A.Key, A.Value] == 0)
+                        mem.Add(i);
+                }
+                foreach (KeyValuePair<char, char> i in mem)
+                    newCandidates.Remove(i);
+                mem.Clear();
+                foreach (KeyValuePair<char, char> i in newNot)
+                {
+                    if (M[i.Key, i.Value][A.Key, A.Value] == 0)
+                        mem.Add(i);
+                }
+                foreach (KeyValuePair<char, char> i in mem)
+                    newNot.Remove(i);
+                if (newNot.Count == 0 && newCandidates.Count == 0)
+                {
+                    if (maxsize < compsub.Count)
+                        maxsize = compsub.Count;
+                }
+                else
+                    extend(newCandidates, newNot, mem, M);
+                compsub.Remove(A);
+                candidates.Remove(A);
+                not.Add(A);
+            }
+        }
+
+        //Возвращает максимальный размер общего подграфа
+        public static int metrics()
+        {
+            Graph a = gr[0];
+            Graph b = gr[1];
+            char[,][,] M = new char[a.v, b.v][,];
+            HashSet<KeyValuePair<char, char>> mem = new HashSet<KeyValuePair<char, char>>();
+            HashSet<KeyValuePair<char, char>> candidates = new HashSet<KeyValuePair<char, char>>();
+            HashSet<KeyValuePair<char, char>> not = new HashSet<KeyValuePair<char, char>>();
+            for (int i = 0; i < a.v; i++)
+                for (int j = 0; j < b.v; j++)
+                {
+                    candidates.Add(new KeyValuePair<char, char>((char)i, (char)j));
+                    M[i, j] = new char[a.v, b.v];
+                    for (int k = 0; k < a.v; k++)
+                    {
+                        if (i == k)
+                            continue;
+                        for (int q = 0; q < b.v; q++)
+                        {
+                            if (q == j)
+                                continue;
+                            if ((((a.m[i][k] > 0) && (b.m[j][q] > 0)) || ((a.m[i][k] == 0) && (b.m[j][q] == 0))) && (((a.m[k][i] > 0) && (b.m[q][j] > 0)) || ((a.m[k][i] == 0) && (b.m[q][j] == 0))))
+                            {
+                                M[i, j][k, q] = (char)1;
+                            }
+                        }
+                    }
+                }
+            extend(candidates, not, mem, M);
+            return maxsize;
+        }
         public static void distance() { }
 
         /* Функция проверяет, является ли данный символ

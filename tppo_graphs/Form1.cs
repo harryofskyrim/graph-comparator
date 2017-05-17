@@ -148,7 +148,7 @@ namespace tppo_graphs
                         break;
                     }
             }
-
+            
             if (check1)
             {
                 // checking whether the second graph input is correct
@@ -210,11 +210,15 @@ namespace tppo_graphs
                         }
                 }
 
+                
+
+
                 if (check2)
                 {
-                    Program.isomorph_main(this);
-                    Program.metrics();
+                    //Program.isomorph_main(this);
+                    metrics_textBox.Text = Program.metrics().ToString();
                     Program.distance();
+                   
                 }
             }
         }
