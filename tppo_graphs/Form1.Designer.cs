@@ -47,6 +47,7 @@
             this.textBox_vertices1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.input_label = new System.Windows.Forms.Label();
+            this.advanced_view_checkBox = new System.Windows.Forms.CheckBox();
             this.output_label = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.isomorph_tabPage = new System.Windows.Forms.TabPage();
@@ -55,7 +56,6 @@
             this.metrics_textBox = new System.Windows.Forms.TextBox();
             this.distance_tabPage = new System.Windows.Forms.TabPage();
             this.distance_textBox = new System.Windows.Forms.TextBox();
-            this.advanced_view_checkBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -281,6 +281,16 @@
             this.input_label.TabIndex = 7;
             this.input_label.Text = "Ввод графов";
             // 
+            // advanced_view_checkBox
+            // 
+            this.advanced_view_checkBox.AutoSize = true;
+            this.advanced_view_checkBox.Location = new System.Drawing.Point(5, 23);
+            this.advanced_view_checkBox.Name = "advanced_view_checkBox";
+            this.advanced_view_checkBox.Size = new System.Drawing.Size(299, 17);
+            this.advanced_view_checkBox.TabIndex = 2;
+            this.advanced_view_checkBox.Text = "Показывать промежуточные результаты вычислений";
+            this.advanced_view_checkBox.UseVisualStyleBackColor = true;
+            // 
             // output_label
             // 
             this.output_label.AutoSize = true;
@@ -315,6 +325,7 @@
             // 
             // isomorph_textBox
             // 
+            this.isomorph_textBox.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.isomorph_textBox.Location = new System.Drawing.Point(8, 6);
             this.isomorph_textBox.Multiline = true;
             this.isomorph_textBox.Name = "isomorph_textBox";
@@ -328,13 +339,14 @@
             this.metrics_tabPage.Location = new System.Drawing.Point(4, 22);
             this.metrics_tabPage.Name = "metrics_tabPage";
             this.metrics_tabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.metrics_tabPage.Size = new System.Drawing.Size(425, 240);
+            this.metrics_tabPage.Size = new System.Drawing.Size(425, 217);
             this.metrics_tabPage.TabIndex = 1;
             this.metrics_tabPage.Text = "Метрики";
             this.metrics_tabPage.UseVisualStyleBackColor = true;
             // 
             // metrics_textBox
             // 
+            this.metrics_textBox.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.metrics_textBox.Location = new System.Drawing.Point(8, 6);
             this.metrics_textBox.Multiline = true;
             this.metrics_textBox.Name = "metrics_textBox";
@@ -348,29 +360,20 @@
             this.distance_tabPage.Location = new System.Drawing.Point(4, 22);
             this.distance_tabPage.Name = "distance_tabPage";
             this.distance_tabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.distance_tabPage.Size = new System.Drawing.Size(425, 240);
+            this.distance_tabPage.Size = new System.Drawing.Size(425, 217);
             this.distance_tabPage.TabIndex = 2;
             this.distance_tabPage.Text = "Расстояние между деревьями";
             this.distance_tabPage.UseVisualStyleBackColor = true;
             // 
             // distance_textBox
             // 
+            this.distance_textBox.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.distance_textBox.Location = new System.Drawing.Point(8, 6);
             this.distance_textBox.Multiline = true;
             this.distance_textBox.Name = "distance_textBox";
             this.distance_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.distance_textBox.Size = new System.Drawing.Size(409, 228);
             this.distance_textBox.TabIndex = 2;
-            // 
-            // advanced_view_checkBox
-            // 
-            this.advanced_view_checkBox.AutoSize = true;
-            this.advanced_view_checkBox.Location = new System.Drawing.Point(5, 23);
-            this.advanced_view_checkBox.Name = "advanced_view_checkBox";
-            this.advanced_view_checkBox.Size = new System.Drawing.Size(299, 17);
-            this.advanced_view_checkBox.TabIndex = 2;
-            this.advanced_view_checkBox.Text = "Показывать промежуточные результаты вычислений";
-            this.advanced_view_checkBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
