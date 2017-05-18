@@ -173,7 +173,8 @@ namespace tppo_graphs
                 }
             }
             for (int i = 0; i < a.v; i++)
-                res[was[i]]++;
+                if(was[i] < 100000)
+                    res[was[i]]++;
             
             //myform.isomorph_write("bfs was:\r\n\r\n");
             //for (int i = 0; i < a.v; i++)
