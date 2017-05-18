@@ -364,8 +364,8 @@ namespace tppo_graphs
          */
         public static void isomorph_main(Form1 myform)
         {
-            Graph a = gr[0];
-            Graph b = gr[1];
+            Graph a = new Graph(gr[0]);
+            Graph b = new Graph(gr[1]);
 
 			if (a.v != b.v) {
                 myform.isomorph_write("Графы не изоморфны\r\n");
@@ -528,8 +528,8 @@ namespace tppo_graphs
         //Возвращает максимальный размер общего подграфа
         public static int metrics()
         {
-            Graph a = gr[0];
-            Graph b = gr[1];
+            Graph a = new Graph(gr[0]);
+            Graph b = new Graph(gr[1]);
             char[,][,] M = new char[a.v, b.v][,];
             HashSet<KeyValuePair<char, char>> mem = new HashSet<KeyValuePair<char, char>>();
             HashSet<KeyValuePair<char, char>> candidates = new HashSet<KeyValuePair<char, char>>();
