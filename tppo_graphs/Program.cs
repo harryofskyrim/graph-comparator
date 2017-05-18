@@ -192,7 +192,7 @@ namespace tppo_graphs
         {
             for (int i = 0; i < a.v; i++)
             {
-                res[i] = new int[a.v];
+                res[i] = new int[a.v + 1];
                 iso_bfs(ref res[i], i, a, myform);
             }
         }
@@ -241,7 +241,7 @@ namespace tppo_graphs
 		        {
                     swap(ref im[i], ref im[j]);
                     swap(ref a.m[i], ref a.m[j], a.v);
-                    swap(ref inv[i], ref inv[j], a.v);
+                    swap(ref inv[i], ref inv[j], a.v + 1);
                     swap(ref reorder[i], ref reorder[j]);
 			        i++;
 			        j--;
@@ -262,13 +262,13 @@ namespace tppo_graphs
          */
         static void iso_reorder(ref Graph a, ref int[][] inv, ref int[] reorder)
         {
-            int[] im = new int[a.v];
+            int[] im = new int[a.v + 1];
             Array.Clear(im, 0, a.v);
             for(int i = 0; i < a.v; i++)
             {
-                int[] im1 = new int[a.v];
+                int[] im1 = new int[a.v + 1];
                 Array.Clear(im1, 0, a.v);
-                for (int j = 0; j < a.v; j++)
+                for (int j = 0; j < a.v + 1; j++)
                     im1[inv[i][j]]++;
 
                 for (int j = 0; j < a.v; j++)
@@ -381,8 +381,8 @@ namespace tppo_graphs
             int[][] res2 = new int[b.v][];
             for (int i = 0; i < a.v; i++)
             {
-                res1[i] = new int[a.v];
-                res2[i] = new int[b.v];
+                res1[i] = new int[a.v + 1];
+                res2[i] = new int[b.v + 1];
                 inv1[i].CopyTo(res1[i], 0);
                 inv2[i].CopyTo(res2[i], 0);
                 Array.Sort(res1[i]);
@@ -392,7 +392,7 @@ namespace tppo_graphs
             iso_sort_inv(ref res2, 0, b.v - 1);
 
             for(int i = 0; i < a.v; i++)
-                for (int j = 0; j < a.v; j++) 
+                for (int j = 0; j < a.v + 1; j++) 
                     if (res1[i][j] != res2[i][j])
                     {
                         //string str = "", endl = "\r\n";
