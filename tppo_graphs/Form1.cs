@@ -215,7 +215,7 @@ namespace tppo_graphs
 
                 if (check2)
                 {
-                    //Program.isomorph_main(this);
+                    Program.isomorph_main(this);
                     metrics_textBox.Text = Program.metrics().ToString();
                     Program.distance();
                    
