@@ -540,7 +540,9 @@ namespace tppo_graphs
             for (int i = 0; i < a.v; i++)
                 for (int j = 0; j < b.v; j++)
                 {
+                    if (a.m[i][i] == b.m[j][j])
                     candidates.Add(new KeyValuePair<char, char>((char)i, (char)j));
+                  
                     M[i, j] = new char[a.v, b.v];
                     for (int k = 0; k < a.v; k++)
                     {
