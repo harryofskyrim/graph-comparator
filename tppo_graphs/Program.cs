@@ -530,6 +530,8 @@ namespace tppo_graphs
         {
             Graph a = new Graph(gr[0]);
             Graph b = new Graph(gr[1]);
+            compsub.Clear();
+            maxsize = 0;
             char[,][,] M = new char[a.v, b.v][,];
             HashSet<KeyValuePair<char, char>> mem = new HashSet<KeyValuePair<char, char>>();
             HashSet<KeyValuePair<char, char>> candidates = new HashSet<KeyValuePair<char, char>>();
