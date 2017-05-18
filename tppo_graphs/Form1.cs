@@ -228,7 +228,7 @@ namespace tppo_graphs
          */
         public void isomorph_write(string s)
         {
-            isomorph_textBox.Text = s;
+            isomorph_textBox.Text += s;
         }
 
         /* Функция, меняющая размер или положение элементов

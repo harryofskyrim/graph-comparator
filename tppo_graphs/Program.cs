@@ -148,10 +148,10 @@ namespace tppo_graphs
          * хранится количество вершин в графе на расстоянии i
          * от данной вершины.
          **/
-        static void iso_bfs (ref int[] res, int v, Graph a)
+        static void iso_bfs (ref int[] res, int v, Graph a, Form1 myform)
         {
             int[] was = new int[a.v];
-            for (int i = 0; i < v; i++)
+            for (int i = 0; i < a.v; i++)
                 was[i] = 100000;
             Array.Clear(res, 0, a.v);
 
@@ -163,16 +163,23 @@ namespace tppo_graphs
             while (q.Count > 0)
             {
                 v = q.Dequeue();
-                for (int i = 0; i < v; i++)
+                for (int i = 0; i < a.v; i++)
                 {
                     if (a.m[v][i] == 1 && was[i] > 99999)
                     {
                         was[i] = Math.Min(was[i], was[v] + 1);
-                        res[was[i]]++;
                         q.Enqueue(i);
                     }
                 }
             }
+            for (int i = 0; i < a.v; i++)
+                res[was[i]]++;
+            
+            //myform.isomorph_write("bfs was:\r\n\r\n");
+            //for (int i = 0; i < a.v; i++)
+            //    myform.isomorph_write(was[i].ToString() + " ");
+            //myform.isomorph_write("\r\n\r\n");
+
         }
 
         /* Функция считает вершинный инвариант графа
@@ -181,12 +188,12 @@ namespace tppo_graphs
          * массив целых чисел, в jй ячейке которого хранится
          * количество вершин в графе на расстоянии j от вершины i.
          **/
-        static void iso_inv(ref int[][] res, Graph a)
+        static void iso_inv(ref int[][] res, Graph a, Form1 myform)
         {
             for (int i = 0; i < a.v; i++)
             {
                 res[i] = new int[a.v];
-                iso_bfs(ref res[i], i, a);
+                iso_bfs(ref res[i], i, a, myform);
             }
         }
 
@@ -219,7 +226,7 @@ namespace tppo_graphs
          *  Ничего не возвращает, изменённые значения передаются в вызывающий метод
          *  по ссылке.
          */
-        static void iso_reorder_sort(ref Graph a, ref int[][] inv, ref int[] im, int l, int r)
+        static void iso_reorder_sort(ref Graph a, ref int[][] inv, ref int[] reorder, ref int[] im, int l, int r)
         {
             Random random = new Random();
             int x = im[l + random.Next(0, r - l)];
@@ -235,14 +242,15 @@ namespace tppo_graphs
                     swap(ref im[i], ref im[j]);
                     swap(ref a.m[i], ref a.m[j], a.v);
                     swap(ref inv[i], ref inv[j], a.v);
+                    swap(ref reorder[i], ref reorder[j]);
 			        i++;
 			        j--;
 		        }
 	        }
 	        if(l<j)
-                iso_reorder_sort(ref a, ref inv, ref im, l, j);
+                iso_reorder_sort(ref a, ref inv, ref reorder, ref im, l, j);
 	        if(i<r)
-                iso_reorder_sort(ref a, ref inv, ref im, i, r);
+                iso_reorder_sort(ref a, ref inv, ref reorder, ref im, i, r);
         }
 
         /* Функция перенумерует вершины графа по инвариантной множественности.
@@ -252,7 +260,7 @@ namespace tppo_graphs
          * Ничего не возвращает, изменённые значения Graph a и int[][] inv
          * передаются в вызывающий метод по ссылке.
          */
-        static void iso_reorder(ref Graph a, ref int[][] inv)
+        static void iso_reorder(ref Graph a, ref int[][] inv, ref int[] reorder)
         {
             int[] im = new int[a.v];
             Array.Clear(im, 0, a.v);
@@ -268,27 +276,35 @@ namespace tppo_graphs
                         im[i] += im1[j];
             }
 
-            iso_reorder_sort(ref a, ref inv, ref im, 0, a.v-1);
+            iso_reorder_sort(ref a, ref inv, ref reorder, ref im, 0, a.v-1);
         }
 
 		// Параметры: inS - множество изоморфных вершин,
 		// v - добавляемая в изоморфизм вершина (при вызове = -1),
 		// остальное понятно. ref означает, что все изменения в f
 		// сохранятся при выходе из функции (передача параметра по ссылке).
-        public static bool isomorph(int[] inS, int v, int k, ref int[] f, int[][] inv1, int[][] inv2)
+        public static bool isomorph(int[] inS, int v, int k, ref int[] f, int[][] inv1, int[][] inv2, Form1 myform)
         {
             if (k == gr[1].v)
                 return true;
+
+            //string str = "";
+            //for (int j = 0; j < gr[1].v; j++)
+            //    str += f[j].ToString() + " ";
+            //str += "\r\n";
+            //for (int j = 0; j < gr[1].v; j++)
+            //    str += inS[j].ToString() + " ";
+            //myform.isomorph_write(str + "\r\n\r\n");
 
             if(v >= 0)
                 inS[v] = 1;
 
             for(int j = 0; j < gr[1].v; j++) 
                 if(inS[j] == 0) {
-                    if (inv1[k] != inv2[j] && !(iso_canMatch(k, j, f)))
+                    if (!Enumerable.SequenceEqual(inv1[k], inv2[j]) && !(iso_canMatch(k, j, f)))
                         continue;
                     f[k] = j;
-                    if (isomorph(inS, j, k+1, ref f, inv1, inv2))
+                    if (isomorph(inS, j, k+1, ref f, inv1, inv2, myform))
                         return true;
                 }
             return false;
@@ -348,54 +364,94 @@ namespace tppo_graphs
          */
         public static void isomorph_main(Form1 myform)
         {
-			if (gr[0].v != gr[1].v) {
-                myform.isomorph_write("Графы не изоморфны");
+            Graph a = gr[0];
+            Graph b = gr[1];
+
+			if (a.v != b.v) {
+                myform.isomorph_write("Графы не изоморфны\r\n");
                 return;
             }
             
-            int[][] inv1 = new int[gr[0].v][];
-            int[][] inv2 = new int[gr[1].v][];
-            iso_inv(ref inv1, gr[0]);
-            iso_inv(ref inv2, gr[1]);
+            int[][] inv1 = new int[a.v][];
+            int[][] inv2 = new int[b.v][];
+            iso_inv(ref inv1, a, myform);
+            iso_inv(ref inv2, b, myform);
             // Инварианты сортируются для сравнения
-            iso_sort_inv(ref inv1, 0, gr[1].v - 1);
-            iso_sort_inv(ref inv2, 0, gr[1].v - 1);
+            int[][] res1 = new int[a.v][];
+            int[][] res2 = new int[b.v][];
+            for (int i = 0; i < a.v; i++)
+            {
+                res1[i] = new int[a.v];
+                res2[i] = new int[b.v];
+                inv1[i].CopyTo(res1[i], 0);
+                inv2[i].CopyTo(res2[i], 0);
+                Array.Sort(res1[i]);
+                Array.Sort(res2[i]);
+            }
+            iso_sort_inv(ref res1, 0, a.v - 1);
+            iso_sort_inv(ref res2, 0, b.v - 1);
 
-            for(int i = 0; i < gr[1].v; i++)
-                for (int j = 0; j < gr[1].v; j++) 
-                    if (inv1[i][j] != inv2[i][j])
+            for(int i = 0; i < a.v; i++)
+                for (int j = 0; j < a.v; j++) 
+                    if (res1[i][j] != res2[i][j])
                     {
-					    myform.isomorph_write("Графы не изоморфны");
+                        //string str = "", endl = "\r\n";
+                        //for (int ii = 0; ii < gr[1].v; ii++)
+                        //{
+                        //    for (int jj = 0; jj < gr[1].v; jj++)
+                        //        str += res1[ii][jj].ToString() + " ";
+                        //    str += endl;
+                        //}
+                        //str += endl;
+                        //for (int ii = 0; ii < gr[1].v; ii++)
+                        //{
+                        //    for (int jj = 0; jj < gr[1].v; jj++)
+                        //        str += res2[ii][jj].ToString() + " ";
+                        //    str += endl;
+                        //}
+                        //str += endl;
+                        //str += i.ToString() + " " + j.ToString() + endl;
+                        //myform.isomorph_write(str);
+                        myform.isomorph_write("Графы не изоморфны\r\n");
 					    return;
 				    }
-			
-			iso_reorder(ref gr[1], ref inv1);
 
-            int[] inS = new int[gr[1].v];
-            Array.Clear(inS, 0, gr[1].v);
+            int[] reorder = new int[a.v];
+            for (int i = 0; i < a.v; i++)
+                reorder[i] = i;
+			iso_reorder(ref a, ref inv1, ref reorder);
 
-            int[] f = new int[gr[1].v];
+            int[] inS = new int[b.v];
+            Array.Clear(inS, 0, b.v);
+
+            int[] f = new int[b.v];
             
-            if (isomorph(inS, -1, 1, ref f, inv1, inv2)) {
+            if (isomorph(inS, -1, 0, ref f, inv1, inv2, myform)) {
 				// Тут должен быть красивый вывод содержимого f в строку str
                 // Для вывода надо будет вызвать myform.isomorph_write(str);
-                string s1 = "", s2 = "", s3 = "";
-                for (int i = 0; i < gr[1].v; i++)
+                string s1 = "| Граф 1 ",
+                       s2 = "+--------",
+                       s3 = "| Граф 2 ";
+                for (int i = 0; i < b.v; i++)
                 {
-                    s1 += "| " + (i + 1).ToString() + " ";
+                    s1 += "| " + (reorder[i] + 1).ToString() + " ";
+                    for (int j = 0; j < Math.Max((f[i] + 1).ToString().Length, (reorder[i] + 1).ToString().Length) - (reorder[i] + 1).ToString().Length; j++)
+                        s1 += " ";
                     s2 += "+-";
-                    for (int j = 0; j < (i + 1).ToString().Length; j++)
+                    for (int j = 0; j < Math.Max((f[i] + 1).ToString().Length, (reorder[i] + 1).ToString().Length); j++)
                         s2 += "-";
                     s2 += "-";
                     s3 += "| " + (f[i] + 1).ToString() + " ";
+                    for (int j = 0; j < Math.Max((f[i] + 1).ToString().Length, (reorder[i] + 1).ToString().Length) - (f[i] + 1).ToString().Length; j++)
+                        s3 += " ";
                 }
                 s1 += "|";
                 s2 += "+";
                 s3 += "|";
-                string str = s2 + "\r\n" + s1 + "\r\n" + s2 + "\r\n" + s3 + "\r\n" + s2;
+                string str = s2 + "\r\n" + s1 + "\r\n" + s2 + "\r\n" + s3 + "\r\n" + s2 + "\r\n";
                 myform.isomorph_write(str);
             } else {
-                myform.isomorph_write("Графы не изоморфны");
+                myform.isomorph_write("Графы не изоморфны\r\n");
             }
         }
     
@@ -663,6 +719,16 @@ namespace tppo_graphs
 
             Graph a = new Graph(g, v);
             gr[number - 1] = a;
+
+            //string str = "", endl = "\r\n";
+            //for (int i = 0; i < gr[number - 1].v; i++)
+            //{
+            //    for (int j = 0; j < gr[number - 1].v; j++)
+            //        str += gr[number - 1].m[i][j].ToString() + " ";
+            //    str += endl;
+            //}
+            //myform.isomorph_write(str);
+
             return Form1.IC_OK; //успешное завершение
         }
 

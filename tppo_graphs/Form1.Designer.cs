@@ -136,6 +136,7 @@
             // 
             this.textBox_matrix2.AcceptsReturn = true;
             this.textBox_matrix2.AcceptsTab = true;
+            this.textBox_matrix2.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox_matrix2.Location = new System.Drawing.Point(7, 144);
             this.textBox_matrix2.Multiline = true;
             this.textBox_matrix2.Name = "textBox_matrix2";
@@ -218,6 +219,7 @@
             // 
             this.textBox_matrix1.AcceptsReturn = true;
             this.textBox_matrix1.AcceptsTab = true;
+            this.textBox_matrix1.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox_matrix1.Location = new System.Drawing.Point(7, 144);
             this.textBox_matrix1.Multiline = true;
             this.textBox_matrix1.Name = "textBox_matrix1";

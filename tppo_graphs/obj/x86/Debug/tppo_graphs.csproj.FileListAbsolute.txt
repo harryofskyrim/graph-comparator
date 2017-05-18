@@ -38,3 +38,11 @@ D:\GrComp\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.resources
 D:\GrComp\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache
 D:\GrComp\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
 D:\GrComp\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.Form1.resources
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.resources
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\bin\Debug\tppo_graphs.exe
+C:\eStudy\Home\asfmgdfkg\graph-comparator\tppo_graphs\bin\Debug\tppo_graphs.pdb

@@ -6,3 +6,10 @@ C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.Pro
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.csproj.GenerateResource.Cache
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.exe
 C:\eStudy\Home\asfmgdfkg\tppo_graphs\tppo_graphs\obj\x86\Release\tppo_graphs.pdb
+D:\graph-comparator\tppo_graphs\bin\Release\tppo_graphs.exe
+D:\graph-comparator\tppo_graphs\bin\Release\tppo_graphs.pdb
+D:\graph-comparator\tppo_graphs\obj\x86\Release\tppo_graphs.Form1.resources
+D:\graph-comparator\tppo_graphs\obj\x86\Release\tppo_graphs.Properties.Resources.resources
+D:\graph-comparator\tppo_graphs\obj\x86\Release\tppo_graphs.csproj.GenerateResource.Cache
+D:\graph-comparator\tppo_graphs\obj\x86\Release\tppo_graphs.exe
+D:\graph-comparator\tppo_graphs\obj\x86\Release\tppo_graphs.pdb
