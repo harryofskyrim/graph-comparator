@@ -568,8 +568,8 @@ namespace tppo_graphs
         **/
         public static void Distance(Form1 myform)
         {
-            var a = new Graph(gr[0]);
-            var b = new Graph(gr[1]);
+            var a = gr[0];
+            var b = gr[1];
 
             myform.DistanceWriteClear();
           
