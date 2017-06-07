@@ -562,7 +562,66 @@ namespace tppo_graphs
             extend(candidates, not, mem, M);
             return maxsize;
         }
-        public static void distance() { }
+
+        /*
+        * 
+        **/
+        public static void Distance(Form1 myform)
+        {
+            var a = new Graph(gr[0]);
+            var b = new Graph(gr[1]);
+
+            myform.DistanceWriteClear();
+          
+            // Это нужно будет отрефакторить
+            // Теперь работают, но это не точно
+            if (!(a.IsTree() && b.IsTree()))
+            {
+                myform.DistanceWrite("Не деревья");
+                return;
+            }
+
+            // считаем что матрица смежности всегда квадратная
+            var maxSize = a.v > b.v ? a.v : b.v;
+
+            var dist = 0;
+
+            // Автоматически забиваются нулями
+            var left = new int[maxSize, maxSize];
+            var right = new int[maxSize, maxSize];
+
+            for (var i = 0; i < a.v; i++)
+            {
+                for (var j = 0; j < a.v; j++)
+                {
+                    left[i,j] = a.m[i][j];
+                }
+            }
+
+            for (var i = 0; i < b.v; i++)
+            {
+                for (var j = 0; j < b.v; j++)
+                {
+                    right[i, j] = b.m[i][j];
+                }
+            }
+
+            for (var i = 0; i < maxSize; i++)
+            {
+                for (var j = 0; j < maxSize; j++)
+                {
+                    if (left[i, j] != right[i, j])
+                    {
+                        dist++;
+                    }
+                }
+            }
+
+            myform.DistanceWrite("Distance: " + dist);
+        }
+
+
+
 
         /* Функция проверяет, является ли данный символ
          * одним из тех, которые ожидаются при вводе матрицы.

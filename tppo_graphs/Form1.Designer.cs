@@ -90,7 +90,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.output_label);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(434, 622);
+            this.splitContainer1.Size = new System.Drawing.Size(434, 621);
             this.splitContainer1.SplitterDistance = 330;
             this.splitContainer1.SplitterIncrement = 10;
             this.splitContainer1.TabIndex = 0;
@@ -381,7 +381,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 622);
+            this.ClientSize = new System.Drawing.Size(434, 621);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(450, 660);

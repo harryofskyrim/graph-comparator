@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace tppo_graphs
 {
@@ -43,12 +40,19 @@ namespace tppo_graphs
         bool dfs(int[] was, int vertex, int prev) 
         {
             was[vertex] = 1;
-            for (int i = 0; i < v; i++)
+            for (var i = 0; i < v; i++)
             {
                 if (m[vertex][i] == 1 && was[i] == 1 && i != prev)
+                {
                     return false;
-                if (m[vertex][i] == 1 && was[i] == 0)
-                    return dfs(was, i, vertex);
+                }
+
+                if (m[vertex][i] != 1 || was[i] != 0) continue;
+
+                if(!dfs(was, i, vertex))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -59,7 +63,7 @@ namespace tppo_graphs
          * Если граф является деревом - возвращает true,
          * иначе false.
          **/
-        bool isTree()
+        public bool IsTree()
         {
             int[] was = new int[v];
             Array.Clear(was, 0, v);

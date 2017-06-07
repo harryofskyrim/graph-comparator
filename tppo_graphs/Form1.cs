@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace tppo_graphs
@@ -217,7 +212,7 @@ namespace tppo_graphs
                 {
                     Program.isomorph_main(this);
                     metrics_textBox.Text = Program.metrics().ToString();
-                    Program.distance();
+                    Program.Distance(this);
                    
                 }
             }
@@ -229,6 +224,16 @@ namespace tppo_graphs
         public void isomorph_write(string s)
         {
             isomorph_textBox.Text += s;
+        }
+
+        public void DistanceWriteClear()
+        {
+            distance_textBox.Text = "";
+        }
+
+        public void DistanceWrite(string s)
+        {
+            distance_textBox.Text += s;
         }
 
         /* Функция, меняющая размер или положение элементов
