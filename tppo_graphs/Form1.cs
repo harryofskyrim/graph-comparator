@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace tppo_graphs
 {
@@ -210,8 +211,11 @@ namespace tppo_graphs
 
                 if (check2)
                 {
-                    Program.isomorph_main(this);
-                    metrics_textBox.Text = Program.metrics().ToString();
+                    KeyValuePair<string, string> S;
+                    //Program.isomorph_main(this);
+                    S = Program.metrics();
+                    isomorph_textBox.Text = S.Key;
+                    metrics_textBox.Text = S.Value;
                     Program.Distance(this);
                    
                 }

@@ -54,3 +54,11 @@ D:\graph-comparator3\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.
 D:\graph-comparator3\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache
 D:\graph-comparator3\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
 D:\graph-comparator3\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.exe
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.pdb
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\bin\Debug\tppo_graphs.exe
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\bin\Debug\tppo_graphs.pdb
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.csprojResolveAssemblyReference.cache
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.Form1.resources
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.Properties.Resources.resources
+C:\Users\Кирилл\Desktop\ТППО\graph-comparator-master\tppo_graphs\obj\x86\Debug\tppo_graphs.csproj.GenerateResource.Cache

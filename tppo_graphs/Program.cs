@@ -458,6 +458,7 @@ namespace tppo_graphs
     
         //Вспомогательные компоненты для ф-ии metrics
         static HashSet<KeyValuePair<char, char>> compsub = new HashSet<KeyValuePair<char, char>>();
+        static HashSet<KeyValuePair<char, char>> save = new HashSet<KeyValuePair<char, char>>();
         static int maxsize = 0;
 
         //Вспомогательная ф-ия для ф-ии metrics
@@ -516,7 +517,11 @@ namespace tppo_graphs
                 if (newNot.Count == 0 && newCandidates.Count == 0)
                 {
                     if (maxsize < compsub.Count)
+                    {
                         maxsize = compsub.Count;
+                        save.Clear();
+                        save.UnionWith(compsub);
+                    }
                 }
                 else
                     extend(newCandidates, newNot, mem, M);
@@ -526,8 +531,8 @@ namespace tppo_graphs
             }
         }
 
-        //Возвращает максимальный размер общего подграфа
-        public static int metrics()
+        //Возвращает максимальный размер общего подграфа, соответствующие ему вершины в обоих графах
+        public static KeyValuePair<string, string> metrics()
         {
             Graph a = new Graph(gr[0]);
             Graph b = new Graph(gr[1]);
@@ -560,7 +565,21 @@ namespace tppo_graphs
                     }
                 }
             extend(candidates, not, mem, M);
-            return maxsize;
+            string result = "Размер макс. подграфа: " + save.Count.ToString() + "\r\n" + "d(G1,G2) = " + (1.0 - Convert.ToDouble(save.Count()) / Convert.ToDouble(Math.Max(a.v, b.v))).ToString() + "\r\n";
+            string s2 = "Граф 1: ", s3 = "Граф 2: ";
+            foreach (KeyValuePair<char, char> i in save) {
+                s2 += (Convert.ToInt16(i.Key) + 1).ToString() + " ";
+                s3 += (Convert.ToInt16(i.Value) + 1).ToString() + " ";
+            }
+            s2 += "\r\n";
+            s2 += s3;
+            string iso;
+            if (save.Count() == Math.Max(a.v, b.v))
+                iso = "Графы изоморфны\r\n" + s2;
+            else
+                iso = "Графы не изоморфны";
+            result += s2;
+            return new KeyValuePair<string, string>(iso, result);
         }
 
         /*
