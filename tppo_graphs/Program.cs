@@ -72,23 +72,29 @@ namespace tppo_graphs
          *  int e - количество рёбер в графе.
          *  Возвращает двухмерный массив (матрицу смежности).
          **/
+        
         public static int[][] inctoadj(int[][] g, int v, int e) 
         {
             int[][] ng = new int[v][];
             for (int i = 0; i < v; i++)
-                ng[i] = new int[e];
+                ng[i] = new int[v];
             int e_start = 0, e_end = 0;
+            bool oriented = false;
             for (int j = 0; j < e; j++)
             {
                 e_end = -1;
                 for (int i = 0; i < v; i++)
                 {
+                    if (g[i][j] == -1)
+                        oriented = true;
                     if (e_end < 0 && g[i][j] == 1)
                         e_end = i;
                     else if (g[i][j] != 0)
                         e_start = i;
                 }
                 ng[e_start][e_end] = 1;
+                if (!oriented)
+                    ng[e_end][e_start] = 1;
             }
             return ng;
         }
@@ -789,14 +795,14 @@ namespace tppo_graphs
                     return Form1.IC_NOT_A_MATRIX; //ввод не является правильной матрицей
                 }
 
-                if (method == 2)
+                if (method == 1)
                 {
                     int cnt;
                     for (j = 0; j < e; j++)
                     {
                         cnt = 0;
                         for (i = 0; i < v && cnt <= 2; i++)
-                            if (g[j][i] != 0)
+                            if (g[i][j] != 0)
                                 cnt++;
                         if (cnt > 2)
                             return Form1.IС_INC_WRONG_FORMAT;
@@ -806,7 +812,7 @@ namespace tppo_graphs
                 }
             }
 
-            Graph a = new Graph(g, v);
+            Graph a = new Graph(g, v);  
             gr[number - 1] = a;
 
             //string str = "", endl = "\r\n";
