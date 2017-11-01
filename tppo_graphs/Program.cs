@@ -483,7 +483,7 @@ namespace tppo_graphs
         }
 
         //Вспомогательная ф-ия для ф-ии metrics
-        static void extend(HashSet<KeyValuePair<char, char>> oldCandidates, HashSet<KeyValuePair<char, char>> oldNot, HashSet<KeyValuePair<char, char>> mem, char[,][,] M)
+        static void extend(HashSet<KeyValuePair<char, char>> oldCandidates, HashSet<KeyValuePair<char, char>> oldNot, HashSet<KeyValuePair<char, char>> mem, char[,][,] M, int limit)
         {
             //Костыль, т.к. коллекции передаются по ссылке
             HashSet<KeyValuePair<char, char>> candidates = new HashSet<KeyValuePair<char, char>>();
@@ -521,10 +521,16 @@ namespace tppo_graphs
                         maxsize = compsub.Count;
                         save.Clear();
                         save.UnionWith(compsub);
+                        if (maxsize == limit)
+                            return;
                     }
                 }
                 else
-                    extend(newCandidates, newNot, mem, M);
+                {
+                    extend(newCandidates, newNot, mem, M, Math.Min(gr[0].v, gr[1].v));
+                    if (maxsize == limit)
+                        return;
+                }
                 compsub.Remove(A);
                 candidates.Remove(A);
                 not.Add(A);
@@ -564,7 +570,7 @@ namespace tppo_graphs
                         }
                     }
                 }
-            extend(candidates, not, mem, M);
+            extend(candidates, not, mem, M, Math.Min(gr[0].v,gr[1].v));
             string result = "Размер макс. подграфа: " + save.Count.ToString() + "\r\n" + "d(G1,G2) = " + (1.0 - Convert.ToDouble(save.Count()) / Convert.ToDouble(Math.Max(a.v, b.v))).ToString() + "\r\n";
             string s2 = "Граф 1: ", s3 = "Граф 2: ";
             foreach (KeyValuePair<char, char> i in save) {
