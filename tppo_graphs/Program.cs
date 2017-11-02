@@ -588,8 +588,9 @@ namespace tppo_graphs
             result += "d4(G1,G2) = ";
             if (detail)
                 result += "|G1| + |G2| - 2*|mcs(G1,G2)| = \r\n = " + a.v.ToString() + " + " + b.v.ToString() + " - 2*" + save.Count.ToString() + " = ";
-            result = result + (a.v + b.v - 2 * save.Count).ToString() + "\r\n"; 
-            string s2 = "Вершины общего подграфа: \r\n   Граф 1: ", s3 = "   Граф 2: ";
+            result = result + (a.v + b.v - 2 * save.Count).ToString() + "\r\n";
+            string b1 = "Вершины общего подграфа", b2 = "Соответствие вершин";
+            string s2 = ": \r\n   Граф 1: ", s3 = "   Граф 2: ";
             foreach (KeyValuePair<char, char> i in save) {
                 s2 += (Convert.ToInt16(i.Key) + 1).ToString() + " ";
                 s3 += (Convert.ToInt16(i.Value) + 1).ToString() + " ";
@@ -598,11 +599,11 @@ namespace tppo_graphs
             s2 += s3;
             string iso;
             if (save.Count() == Math.Max(a.v, b.v))
-                iso = "Графы изоморфны\r\n" + s2;
+                iso = "Графы изоморфны\r\n" + b2 + s2;
             else
                 iso = "Графы не изоморфны";
             if (save.Count() > 0)
-                result += s2;
+                result += b1 + s2;
             save.Clear();
             compsub.Clear();
             candidates.Clear();
