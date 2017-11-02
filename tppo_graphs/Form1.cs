@@ -213,7 +213,7 @@ namespace tppo_graphs
                 {
                     KeyValuePair<string, string> S;
                     //Program.isomorph_main(this);
-                    S = Program.metrics();
+                    S = Program.metrics(advanced_view_checkBox.Checked);
                     isomorph_textBox.Text = S.Key;
                     metrics_textBox.Text = S.Value;
                     Program.Distance(this);

@@ -288,9 +288,9 @@
             this.advanced_view_checkBox.AutoSize = true;
             this.advanced_view_checkBox.Location = new System.Drawing.Point(5, 23);
             this.advanced_view_checkBox.Name = "advanced_view_checkBox";
-            this.advanced_view_checkBox.Size = new System.Drawing.Size(299, 17);
+            this.advanced_view_checkBox.Size = new System.Drawing.Size(119, 17);
             this.advanced_view_checkBox.TabIndex = 2;
-            this.advanced_view_checkBox.Text = "Показывать промежуточные результаты вычислений";
+            this.advanced_view_checkBox.Text = "Подробный вывод";
             this.advanced_view_checkBox.UseVisualStyleBackColor = true;
             // 
             // output_label

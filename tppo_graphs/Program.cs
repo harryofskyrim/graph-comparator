@@ -85,7 +85,7 @@ namespace tppo_graphs
                 e_end = -1;
                 for (int i = 0; i < v; i++)
                 {
-                    if (g[i][j] == -1)
+                    if (g[i][j] < 0)
                         oriented = true;
                     if (e_end < 0 && g[i][j] == 1)
                         e_end = i;
@@ -544,7 +544,7 @@ namespace tppo_graphs
         }
 
         //Возвращает максимальный размер общего подграфа, соответствующие ему вершины в обоих графах
-        public static KeyValuePair<string, string> metrics()
+        public static KeyValuePair<string, string> metrics(bool detail)
         {
             Graph a = new Graph(gr[0]);
             Graph b = new Graph(gr[1]);
@@ -577,8 +577,19 @@ namespace tppo_graphs
                     }
                 }
             extend(candidates, not, mem, M, Math.Min(gr[0].v,gr[1].v));
-            string result = "Размер макс. подграфа: " + save.Count.ToString() + "\r\n" + "d(G1,G2) = " + (1.0 - Convert.ToDouble(save.Count()) / Convert.ToDouble(Math.Max(a.v, b.v))).ToString() + "\r\n";
-            string s2 = "Граф 1: ", s3 = "Граф 2: ";
+            string result = "Размер макс. подграфа: " + save.Count.ToString() + "\r\n" + "d2(G1,G2) = ";
+            if (detail)
+                result += "1 - |mcs(G1,G2)| / max(|G1|,|G2|) = \r\n = 1 - " + save.Count.ToString() + " / " + (Math.Max(a.v, b.v)).ToString() + " = ";
+            result = result + (1.0 - Convert.ToDouble(save.Count()) / Convert.ToDouble(Math.Max(a.v, b.v))).ToString() + "\r\n"; 
+            result += "d3(G1,G2) = ";
+            if (detail)
+                result += "1 - |mcs(G1,G2)|/(|G1|+|G2|-|mcs(G1,G2)|) = \r\n = 1 - " + save.Count.ToString() + " / " + (a.v + b.v - save.Count).ToString() + " = ";
+            result = result + (1.0 - Convert.ToDouble(save.Count()) / Convert.ToDouble(a.v + b.v - save.Count)).ToString() + "\r\n";
+            result += "d4(G1,G2) = ";
+            if (detail)
+                result += "|G1| + |G2| - 2*|mcs(G1,G2)| = \r\n = " + a.v.ToString() + " + " + b.v.ToString() + " - 2*" + save.Count.ToString() + " = ";
+            result = result + (a.v + b.v - 2 * save.Count).ToString() + "\r\n"; 
+            string s2 = "Вершины общего подграфа: \r\n   Граф 1: ", s3 = "   Граф 2: ";
             foreach (KeyValuePair<char, char> i in save) {
                 s2 += (Convert.ToInt16(i.Key) + 1).ToString() + " ";
                 s3 += (Convert.ToInt16(i.Value) + 1).ToString() + " ";
@@ -590,7 +601,8 @@ namespace tppo_graphs
                 iso = "Графы изоморфны\r\n" + s2;
             else
                 iso = "Графы не изоморфны";
-            result += s2;
+            if (save.Count() > 0)
+                result += s2;
             return new KeyValuePair<string, string>(iso, result);
         }
 
