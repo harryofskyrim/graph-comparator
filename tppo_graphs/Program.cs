@@ -603,6 +603,10 @@ namespace tppo_graphs
                 iso = "Графы не изоморфны";
             if (save.Count() > 0)
                 result += s2;
+            save.Clear();
+            compsub.Clear();
+            candidates.Clear();
+            not.Clear();
             return new KeyValuePair<string, string>(iso, result);
         }
 
